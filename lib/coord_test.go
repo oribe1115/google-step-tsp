@@ -151,3 +151,51 @@ func TestTotalDistance(t *testing.T) {
 		})
 	}
 }
+
+func TestCoordListDelete(t *testing.T) {
+	tests := []struct {
+		Label    string
+		Use      *CoordList
+		Input    int
+		Expected *CoordList
+		IsError  bool
+	}{
+		{
+			Label: "SUCCESS: normal",
+			Use: &CoordList{
+				&Coord{0, 214.98279057984195, 762.6903632435094},
+				&Coord{1, 1222.0393903625825, 229.56212316547953},
+				&Coord{2, 792.6961393471055, 404.5419583098643},
+			},
+			Input: 1,
+			Expected: &CoordList{
+				&Coord{0, 214.98279057984195, 762.6903632435094},
+				&Coord{2, 792.6961393471055, 404.5419583098643},
+			},
+			IsError: false,
+		},
+		{
+			Label: "FAIL: index is out of range",
+			Use: &CoordList{
+				&Coord{0, 214.98279057984195, 762.6903632435094},
+				&Coord{1, 1222.0393903625825, 229.56212316547953},
+				&Coord{2, 792.6961393471055, 404.5419583098643},
+			},
+			Input:    3,
+			Expected: nil,
+			IsError:  true,
+		},
+	}
+
+	for _, test := range tests {
+		t.Run(test.Label, func(t *testing.T) {
+			err := test.Use.Delete(test.Input)
+			if test.IsError {
+				assert.Error(t, err)
+				return
+			}
+			assert.NoError(t, err)
+			assert.Equal(t, test.Expected, test.Use)
+		})
+	}
+}

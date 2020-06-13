@@ -1,6 +1,9 @@
 package lib
 
-import "math"
+import (
+	"fmt"
+	"math"
+)
 
 type Coord struct {
 	ID int
@@ -39,4 +42,13 @@ func (c CoordList) TotalDistance() float64 {
 		result += Distance(c[i], c[i+1])
 	}
 	return result
+}
+
+func (c *CoordList) Delete(index int) error {
+	if index > len(*c)-1 {
+		return fmt.Errorf("delete out of range. index=%d", index)
+	}
+	old := *c
+	*c = append(old[:index], old[index+1:]...)
+	return nil
 }
