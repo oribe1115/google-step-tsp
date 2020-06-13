@@ -20,4 +20,17 @@ func main() {
 	list.Set(c)
 	fmt.Println(list)
 	fmt.Println(list.TotalDistance())
+
+	lines, err := lib.CSVRead("./lib/testdata/input.csv")
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	fmt.Println(lines)
+
+	err = lib.CSVWrite("./lib/testdata/out.csv", list)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
 }
