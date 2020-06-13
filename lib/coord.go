@@ -66,3 +66,7 @@ func (c *CoordList) Pop(index int) (*Coord, error) {
 
 	return coord, nil
 }
+
+func (c CoordList) Swap(indexA int, indexB int) {
+	c[indexA], c[indexB] = c[indexB], c[indexA]
+}

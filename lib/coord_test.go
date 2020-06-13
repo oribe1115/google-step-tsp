@@ -255,3 +255,38 @@ func TestCoordListPop(t *testing.T) {
 		})
 	}
 }
+
+func TestCoordListSwap(t *testing.T) {
+	type input struct {
+		indexA int
+		indexB int
+	}
+	tests := []struct {
+		Label    string
+		Use      *CoordList
+		Input    input
+		Expected *CoordList
+	}{
+		{
+			Label: "SUCCESS: normal",
+			Use: &CoordList{
+				&Coord{0, 214.98279057984195, 762.6903632435094},
+				&Coord{1, 1222.0393903625825, 229.56212316547953},
+				&Coord{2, 792.6961393471055, 404.5419583098643},
+			},
+			Input: input{0, 2},
+			Expected: &CoordList{
+				&Coord{2, 792.6961393471055, 404.5419583098643},
+				&Coord{1, 1222.0393903625825, 229.56212316547953},
+				&Coord{0, 214.98279057984195, 762.6903632435094},
+			},
+		},
+	}
+
+	for _, test := range tests {
+		t.Run(test.Label, func(t *testing.T) {
+			test.Use.Swap(test.Input.indexA, test.Input.indexB)
+			assert.Equal(t, test.Expected, test.Use)
+		})
+	}
+}
