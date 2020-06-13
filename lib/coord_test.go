@@ -290,3 +290,30 @@ func TestCoordListSwap(t *testing.T) {
 		})
 	}
 }
+
+func TestCoordListGet(t *testing.T) {
+	tests := []struct {
+		Label    string
+		Use      *CoordList
+		Input    int
+		Expected *Coord
+	}{
+		{
+			Label: "SUCCESS: normal",
+			Use: &CoordList{
+				&Coord{0, 214.98279057984195, 762.6903632435094},
+				&Coord{1, 1222.0393903625825, 229.56212316547953},
+				&Coord{2, 792.6961393471055, 404.5419583098643},
+			},
+			Input:    1,
+			Expected: &Coord{1, 1222.0393903625825, 229.56212316547953},
+		},
+	}
+
+	for _, test := range tests {
+		t.Run(test.Label, func(t *testing.T) {
+			got := test.Use.Get(test.Input)
+			assert.Equal(t, test.Expected, got)
+		})
+	}
+}
