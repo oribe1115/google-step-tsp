@@ -20,13 +20,14 @@ func main() {
 		return
 	}
 
-	data := lib.InitCoordList()
+	data := lib.InitCoordList(0)
 	for i, d := range csvData {
 		data.Set(lib.CreateCoord(i, d[0], d[1]))
 	}
 
 	fmt.Println("Choose alogorithm")
 	fmt.Println("1. Greedy")
+	fmt.Println("2. 2-opt")
 	fmt.Printf("> ")
 	input := lib.ReadLine()
 
@@ -39,6 +40,25 @@ func main() {
 			fmt.Println(err)
 			return
 		}
+		break
+	case "2":
+		result, err = algo.Greedy(data)
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+		bestDistance := result.TotalDistance()
+		result, err = algo.TwoOpt(result)
+		for {
+			fmt.Printf("best: %f\n", bestDistance)
+			result, err = algo.TwoOpt(result)
+			tmpDistance := result.TotalDistance()
+			if tmpDistance == bestDistance {
+				break
+			}
+			bestDistance = result.TotalDistance()
+		}
+		break
 	default:
 		fmt.Println("Invalid input")
 		return

@@ -3,7 +3,7 @@ package algo
 import "github.com/oribe1115/google-step-tsp/lib"
 
 func Greedy(data *lib.CoordList) (*lib.CoordList, error) {
-	result := lib.InitCoordList()
+	result := lib.InitCoordList(0)
 
 	tmp, err := data.Pop(0)
 	if err != nil {

@@ -27,8 +27,8 @@ func Distance(coordA *Coord, coordB *Coord) float64 {
 	return math.Sqrt(math.Pow(xd, 2) + math.Pow(yd, 2))
 }
 
-func InitCoordList() *CoordList {
-	coordList := make(CoordList, 0)
+func InitCoordList(length int) *CoordList {
+	coordList := make(CoordList, length)
 	return &coordList
 }
 
@@ -41,6 +41,7 @@ func (c CoordList) TotalDistance() float64 {
 	for i := 0; i < len(c)-1; i++ {
 		result += Distance(c[i], c[i+1])
 	}
+	result += Distance(c[len(c)-1], c[0])
 	return result
 }
 
@@ -73,4 +74,38 @@ func (c CoordList) Swap(indexA int, indexB int) {
 
 func (c CoordList) Get(index int) *Coord {
 	return c[index]
+}
+
+func (c CoordList) ShouldSwap(indexA int, indexB int) bool {
+	if indexA > indexB {
+		indexA, indexB = indexB, indexA
+	}
+
+	indexALeft := indexA - 1
+	indexBRight := indexB + 1
+	if indexA == 0 {
+		indexALeft = len(c) - 1
+	}
+	if indexB == len(c)-1 {
+		indexBRight = 0
+	}
+
+	var deletedDist, newDist float64
+	if indexA == 0 && indexB == len(c)-1 {
+		deletedDist = Distance(c[indexA], c[indexA+1]) + Distance(c[indexB-1], c[indexB])
+		newDist = Distance(c[indexB], c[indexA+1]) + Distance(c[indexB-1], c[indexA])
+	} else if indexA+1 == indexB {
+		deletedDist = Distance(c[indexALeft], c[indexA]) + Distance(c[indexB], c[indexBRight])
+		newDist = Distance(c[indexALeft], c[indexB]) + Distance(c[indexA], c[indexBRight])
+	} else {
+		deletedByA := Distance(c[indexALeft], c[indexA]) + Distance(c[indexA], c[indexA+1])
+		deletedByB := Distance(c[indexB-1], c[indexB]) + Distance(c[indexB], c[indexBRight])
+		newByA := Distance(c[indexB-1], c[indexA]) + Distance(c[indexA], c[indexBRight])
+		newByB := Distance(c[indexALeft], c[indexB]) + Distance(c[indexB], c[indexA+1])
+
+		deletedDist = deletedByA + deletedByB
+		newDist = newByA + newByB
+	}
+
+	return deletedDist > newDist
 }

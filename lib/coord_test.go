@@ -83,17 +83,19 @@ func TestDistance(t *testing.T) {
 func TestInitCoordList(t *testing.T) {
 	tests := []struct {
 		Label    string
+		Input    int
 		Expected *CoordList
 	}{
 		{
 			Label:    "SUCCESS: normal",
+			Input:    0,
 			Expected: &CoordList{},
 		},
 	}
 
 	for _, test := range tests {
 		t.Run(test.Label, func(t *testing.T) {
-			got := InitCoordList()
+			got := InitCoordList(test.Input)
 			assert.Equal(t, test.Expected, got)
 		})
 	}
@@ -140,7 +142,7 @@ func TestTotalDistance(t *testing.T) {
 				&Coord{1, 1222.0393903625825, 229.56212316547953},
 				&Coord{2, 792.6961393471055, 404.5419583098643},
 			},
-			Expected: 1603.0994662419798,
+			Expected: 2282.822198906116,
 		},
 	}
 
@@ -313,6 +315,83 @@ func TestCoordListGet(t *testing.T) {
 	for _, test := range tests {
 		t.Run(test.Label, func(t *testing.T) {
 			got := test.Use.Get(test.Input)
+			assert.Equal(t, test.Expected, got)
+		})
+	}
+}
+
+func TestCoordListShouldSwap(t *testing.T) {
+	type input struct {
+		indexA int
+		indexB int
+	}
+	tests := []struct {
+		Label    string
+		Use      *CoordList
+		Input    input
+		Expected bool
+	}{
+		{
+			Label: "SUCCESS: normal & false",
+			Use: &CoordList{
+				{0, 0, 0}, {1, 2, 0}, {2, 4, 0}, {3, 4, 3}, {4, 0, 3},
+			},
+			Input:    input{1, 3},
+			Expected: false,
+		},
+		{
+			Label: "SUCCESS: normal & true",
+			Use: &CoordList{
+				{0, 0, 0}, {3, 4, 3}, {2, 4, 0}, {1, 2, 0}, {4, 0, 3},
+			},
+			Input:    input{1, 3},
+			Expected: true,
+		},
+		{
+			Label: "SUCCESS: indexA=0 & true",
+			Use: &CoordList{
+				{2, 4, 0}, {1, 2, 0}, {0, 0, 0}, {3, 4, 3}, {4, 0, 3},
+			},
+			Input:    input{0, 2},
+			Expected: true,
+		},
+		{
+			Label: "SUCCESS: indexB=last & false",
+			Use: &CoordList{
+				{0, 0, 0}, {1, 2, 0}, {2, 4, 0}, {3, 4, 3}, {4, 0, 3},
+			},
+			Input:    input{2, 4},
+			Expected: false,
+		},
+		{
+			Label: "SUCCESS: indexA+1=indexB & true",
+			Use: &CoordList{
+				{0, 0, 0}, {2, 4, 0}, {1, 2, 0}, {3, 4, 3}, {4, 0, 3},
+			},
+			Input:    input{1, 2},
+			Expected: true,
+		},
+		{
+			Label: "SUCCESS: indexA=0, indexB=last & false",
+			Use: &CoordList{
+				{0, 0, 0}, {1, 2, 0}, {2, 4, 0}, {3, 4, 3}, {4, 0, 3},
+			},
+			Input:    input{0, 4},
+			Expected: false,
+		},
+		{
+			Label: "SUCCESS: indexA=0,indexA+1=indexB  & false",
+			Use: &CoordList{
+				{0, 0, 0}, {1, 2, 0}, {2, 4, 0}, {3, 4, 3}, {4, 0, 3},
+			},
+			Input:    input{0, 1},
+			Expected: false,
+		},
+	}
+
+	for _, test := range tests {
+		t.Run(test.Label, func(t *testing.T) {
+			got := test.Use.ShouldSwap(test.Input.indexA, test.Input.indexB)
 			assert.Equal(t, test.Expected, got)
 		})
 	}
