@@ -46,7 +46,6 @@ func CSVWrite(filename string, coordList *CoordList) error {
 	record := make([][]string, 0)
 	record = append(record, []string{"index"})
 	for _, coord := range *coordList {
-		fmt.Println(coord.ID)
 		record = append(record, []string{fmt.Sprintf("%d", coord.ID)})
 	}
 

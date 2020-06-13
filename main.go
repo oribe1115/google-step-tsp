@@ -3,28 +3,31 @@ package main
 import (
 	"fmt"
 
+	"github.com/oribe1115/google-step-tsp/algo"
 	"github.com/oribe1115/google-step-tsp/lib"
 )
 
 func main() {
-	a := lib.CreateCoord(0, 5, 4)
-	b := lib.CreateCoord(1, 3, 3)
-	fmt.Println(lib.Distance(a, b))
-
-	c := lib.CreateCoord(2, 6, 5)
-	fmt.Println(lib.Distance(b, c))
-
-	list := lib.InitCoordList()
-	list.Set(a)
-	list.Set(b)
-	list.Set(c)
-	fmt.Println(list)
-	fmt.Println(list.TotalDistance())
-
-	err := list.Delete(1)
+	csvData, err := lib.CSVRead("./input_0.csv")
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
-	fmt.Println(list)
+
+	data := lib.InitCoordList()
+	for i, d := range csvData {
+		data.Set(lib.CreateCoord(i, d[0], d[1]))
+	}
+
+	result, err := algo.Greedy(data)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	err = lib.CSVWrite("./output_0.csv", result)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
 }

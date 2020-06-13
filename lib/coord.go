@@ -45,10 +45,24 @@ func (c CoordList) TotalDistance() float64 {
 }
 
 func (c *CoordList) Delete(index int) error {
-	if index > len(*c)-1 {
+	if index < 0 || index > len(*c)-1 {
 		return fmt.Errorf("delete out of range. index=%d", index)
 	}
 	old := *c
 	*c = append(old[:index], old[index+1:]...)
 	return nil
+}
+
+func (c *CoordList) Pop(index int) (*Coord, error) {
+	if index < 0 || index > len(*c)-1 {
+		return nil, fmt.Errorf("pop out of range. index=%d", index)
+	}
+
+	coord := (*c)[index]
+	err := c.Delete(index)
+	if err != nil {
+		return nil, err
+	}
+
+	return coord, nil
 }
