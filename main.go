@@ -8,7 +8,13 @@ import (
 )
 
 func main() {
-	csvData, err := lib.CSVRead("./input_0.csv")
+	lib.InitStdin()
+
+	fmt.Println("Choose case number between 0 to 6")
+	fmt.Printf("> ")
+	fileNo := lib.ReadLine()
+
+	csvData, err := lib.CSVRead(fmt.Sprintf("./input_%s.csv", fileNo))
 	if err != nil {
 		fmt.Println(err)
 		return
@@ -19,13 +25,28 @@ func main() {
 		data.Set(lib.CreateCoord(i, d[0], d[1]))
 	}
 
-	result, err := algo.Greedy(data)
-	if err != nil {
-		fmt.Println(err)
+	fmt.Println("Choose alogorithm")
+	fmt.Println("1. Greedy")
+	fmt.Printf("> ")
+	input := lib.ReadLine()
+
+	var result *lib.CoordList
+
+	switch input {
+	case "1":
+		result, err = algo.Greedy(data)
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+	default:
+		fmt.Println("Invalid input")
 		return
 	}
 
-	err = lib.CSVWrite("./output_0.csv", result)
+	fmt.Printf("totarDistance: %f\n", result.TotalDistance())
+
+	err = lib.CSVWrite(fmt.Sprintf("./output_%s.csv", fileNo), result)
 	if err != nil {
 		fmt.Println(err)
 		return
