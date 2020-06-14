@@ -28,7 +28,7 @@ func main() {
 	fmt.Println("Choose alogorithm")
 	fmt.Println("1. Greedy")
 	fmt.Println("2. 2-opt")
-	fmt.Println("3. GA")
+	fmt.Println("3. GeneticAlgorithm")
 	fmt.Printf("> ")
 	input := lib.ReadLine()
 
@@ -61,12 +61,7 @@ func main() {
 		}
 		break
 	case "3":
-		father := lib.NewSuffledTour(5)
-		mother := lib.NewSuffledTour(5)
-		childs := algo.Crossover(father, mother)
-		fmt.Printf("parents: %v, %v\n", father, mother)
-		fmt.Printf("childs: %v, %v\n", childs[0], childs[1])
-		return
+		result = algo.GeneticAlgorithm(data)
 	default:
 		fmt.Println("Invalid input")
 		return

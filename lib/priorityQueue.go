@@ -24,7 +24,8 @@ func (pq *PriorityQueue) Push(value interface{}, priority float64) {
 	heap.Push(&pq.pq, item)
 }
 
-// Pop PriorityQueueから最もpriorityが高いものの情報を返す
+// Pop PriorityQueueから最もpriorityが低いものの情報を返す
+// 本来の優先度付きキューの仕様とは逆
 func (pq *PriorityQueue) Pop() (value interface{}, priority float64) {
 	if pq.pq.Len() == 0 {
 		return nil, 0
@@ -51,7 +52,7 @@ func (pq priorityQueue) Len() int {
 }
 
 func (pq priorityQueue) Less(i, j int) bool {
-	return pq[i].priority > pq[j].priority
+	return pq[i].priority < pq[j].priority
 }
 
 func (pq priorityQueue) Swap(i, j int) {

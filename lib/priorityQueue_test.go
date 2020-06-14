@@ -26,11 +26,11 @@ func TestPriorityQueue(t *testing.T) {
 				{"e", 5},
 			},
 			Expected: []item{
-				{"c", 15},
-				{"a", 10},
-				{"b", 8},
-				{"e", 5},
 				{"d", 3},
+				{"e", 5},
+				{"b", 8},
+				{"a", 10},
+				{"c", 15},
 			},
 		},
 	}
