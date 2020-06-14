@@ -1,5 +1,7 @@
 package lib
 
+import "fmt"
+
 type Tour []int
 
 func InitTour() *Tour {
@@ -30,4 +32,28 @@ func (t Tour) FindIndex(value int) int {
 		}
 	}
 	return index
+}
+
+func (t *Tour) Delete(index int) error {
+	if index < 0 || index > len(*t)-1 {
+		return fmt.Errorf("delete out of range. index=%d", index)
+	}
+	old := *t
+	*t = append(old[:index], old[index+1:]...)
+
+	return nil
+}
+
+func (t *Tour) Pop(index int) (int, error) {
+	if index < 0 || index > len(*t)-1 {
+		return 0, fmt.Errorf("pop out of range. index=%d", index)
+	}
+
+	id := (*t)[index]
+	err := t.Delete(index)
+	if err != nil {
+		return 0, err
+	}
+
+	return id, nil
 }

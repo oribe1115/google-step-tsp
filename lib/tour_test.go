@@ -120,3 +120,77 @@ func TestTourFindIndex(t *testing.T) {
 		})
 	}
 }
+
+func TestTourDelete(t *testing.T) {
+	tests := []struct {
+		Label    string
+		Use      *Tour
+		Input    int
+		Expected *Tour
+		IsError  bool
+	}{
+		{
+			Label:    "SUCCESS: normal",
+			Use:      &Tour{0, 1, 2, 3, 4},
+			Input:    2,
+			Expected: &Tour{0, 1, 3, 4},
+			IsError:  false,
+		},
+		{
+			Label:    "FAIL: out of range",
+			Use:      &Tour{0, 1, 2, 3, 4},
+			Input:    5,
+			Expected: nil,
+			IsError:  true,
+		},
+	}
+
+	for _, test := range tests {
+		t.Run(test.Label, func(t *testing.T) {
+			err := test.Use.Delete(test.Input)
+			if test.IsError {
+				assert.Error(t, err)
+				return
+			}
+			assert.NoError(t, err)
+			assert.Equal(t, test.Expected, test.Use)
+		})
+	}
+}
+
+func TestTourPop(t *testing.T) {
+	tests := []struct {
+		Label    string
+		Use      *Tour
+		Input    int
+		Expected int
+		IsError  bool
+	}{
+		{
+			Label:    "SUCCESS: normal",
+			Use:      &Tour{1, 2, 3, 4},
+			Input:    2,
+			Expected: 3,
+			IsError:  false,
+		},
+		{
+			Label:    "FAIL: out of range",
+			Use:      &Tour{1, 2, 3, 4},
+			Input:    5,
+			Expected: 0,
+			IsError:  true,
+		},
+	}
+
+	for _, test := range tests {
+		t.Run(test.Label, func(t *testing.T) {
+			got, err := test.Use.Pop(test.Input)
+			if test.IsError {
+				assert.Error(t, err)
+				return
+			}
+			assert.NoError(t, err)
+			assert.Equal(t, test.Expected, got)
+		})
+	}
+}
