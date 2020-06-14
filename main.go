@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"strconv"
 
 	"github.com/oribe1115/google-step-tsp/algo"
 	"github.com/oribe1115/google-step-tsp/lib"
@@ -61,7 +62,15 @@ func main() {
 		}
 		break
 	case "3":
-		result = algo.GeneticAlgorithm(data)
+		fmt.Println("Input Generarion Limit")
+		fmt.Printf("> ")
+		input = lib.ReadLine()
+		limit, err := strconv.Atoi(input)
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+		result = algo.GeneticAlgorithm(data, limit)
 	default:
 		fmt.Println("Invalid input")
 		return

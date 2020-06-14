@@ -6,11 +6,10 @@ import (
 	"github.com/oribe1115/google-step-tsp/lib"
 )
 
-func GeneticAlgorithm(data *lib.CoordList) *lib.Tour {
-	generationLimit := 1000
+func GeneticAlgorithm(data *lib.CoordList, generationLimit int) *lib.Tour {
 	parentsSize := 50
 	crossoverCount := 100
-	mutationPercent := 5
+	mutationPercent := 10
 
 	parents := make([]*lib.Tour, 0)
 	dataLength := len(*data)
