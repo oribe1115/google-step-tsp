@@ -7,9 +7,10 @@ import (
 )
 
 func GeneticAlgorithm(data *lib.CoordList) *lib.Tour {
-	generationLimit := 100
-	parentsSize := 10
-	crossoverCount := 20
+	generationLimit := 1000
+	parentsSize := 50
+	crossoverCount := 100
+	mutationPercent := 5
 
 	parents := make([]*lib.Tour, 0)
 	dataLength := len(*data)
@@ -18,11 +19,13 @@ func GeneticAlgorithm(data *lib.CoordList) *lib.Tour {
 	}
 
 	for i := 0; i < generationLimit; i++ {
-		output := fmt.Sprintf("gene %2d: ", i)
-		for _, parent := range parents {
-			output += fmt.Sprintf("%f ", data.TotalDistance(parent))
-		}
-		fmt.Println(output)
+		// output := fmt.Sprintf("gene %2d: ", i)
+		// for _, parent := range parents {
+		// 	output += fmt.Sprintf("%f ", data.TotalDistance(parent))
+		// }
+		// fmt.Println(output)
+
+		fmt.Printf("gene %2d: %f, %f, %f\n", i, data.TotalDistance(parents[0]), data.TotalDistance(parents[parentsSize/2]), data.TotalDistance(parents[parentsSize-1]))
 
 		childs := make([]*lib.Tour, 0)
 		for j := 0; j < crossoverCount; j++ {
@@ -33,6 +36,12 @@ func GeneticAlgorithm(data *lib.CoordList) *lib.Tour {
 		}
 
 		parents = selection(childs, parentsSize, data)
+
+		for j := 0; j < len(parents); j++ {
+			if lib.Rand(100) < mutationPercent {
+				parents[j] = mutation(parents[j])
+			}
+		}
 	}
 
 	return parents[0]
@@ -81,4 +90,31 @@ func selection(childs []*lib.Tour, size int, data *lib.CoordList) []*lib.Tour {
 	}
 
 	return selected
+}
+
+func mutation(parent *lib.Tour) *lib.Tour {
+	// スクランブル
+	length := parent.Len()
+	indexA := lib.Rand(length)
+	indexB := lib.Rand(length)
+	if indexA > indexB {
+		indexA, indexB = indexB, indexA
+	}
+
+	// fmt.Printf("--- mutation: %d, %d\n", indexA, indexB)
+
+	old := *parent
+
+	splited := old[indexA:indexB]
+	splited.Suffle()
+
+	new := old[:indexA]
+	new = append(new, splited...)
+	new = append(new, old[indexB:]...)
+
+	if new.Len() != length {
+		panic(fmt.Sprintf("before: %d, after: %d", length, new.Len()))
+	}
+
+	return &new
 }

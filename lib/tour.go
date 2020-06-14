@@ -72,10 +72,13 @@ func NewSuffledTour(length int) *Tour {
 	tour := InitTour(0)
 	tour.SetDefault(length)
 
-	for i := length - 1; i >= 0; i-- {
-		j := Rand(i + 1)
-		tour.Swap(i, j)
-	}
-
+	tour.Suffle()
 	return tour
+}
+
+func (t Tour) Suffle() {
+	for i := t.Len() - 1; i >= 0; i-- {
+		j := Rand(i + 1)
+		t.Swap(i, j)
+	}
 }
