@@ -7,12 +7,12 @@ import (
 )
 
 func GeneticAlgorithm(data *lib.CoordList, generationLimit int) *lib.Tour {
-	parentsSize := 50
+	dataLength := len(*data)
+	parentsSize := dataLength * 10
 	crossoverCount := parentsSize * 4
 	mutationPercent := 10
 
 	parents := make([]*lib.Tour, 0)
-	dataLength := len(*data)
 	for i := 0; i < parentsSize; i++ {
 		parents = append(parents, lib.NewSuffledTour(dataLength))
 	}
@@ -26,6 +26,12 @@ func GeneticAlgorithm(data *lib.CoordList, generationLimit int) *lib.Tour {
 
 		fmt.Printf("gene %2d: %f, %f, %f\n", i, data.TotalDistance(parents[0]), data.TotalDistance(parents[parentsSize/2]), data.TotalDistance(parents[parentsSize-1]))
 
+		for j := 0; j < len(parents); j++ {
+			if lib.Rand(100) < mutationPercent {
+				parents[j] = mutation(parents[j])
+			}
+		}
+
 		childs := make([]*lib.Tour, 0)
 		for j := 0; j < crossoverCount; j++ {
 			fatherIndex := lib.Rand(len(parents))
@@ -35,12 +41,6 @@ func GeneticAlgorithm(data *lib.CoordList, generationLimit int) *lib.Tour {
 		}
 
 		parents = selection(childs, parentsSize, data)
-
-		for j := 0; j < len(parents); j++ {
-			if lib.Rand(100) < mutationPercent {
-				parents[j] = mutation(parents[j])
-			}
-		}
 	}
 
 	return parents[0]
