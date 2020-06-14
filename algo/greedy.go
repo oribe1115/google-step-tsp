@@ -5,8 +5,8 @@ import (
 )
 
 func Greedy(data *lib.CoordList) (*lib.Tour, error) {
-	result := lib.InitTour()
-	base := lib.InitTour()
+	result := lib.InitTour(0)
+	base := lib.InitTour(0)
 	base.SetDefault(len(*data))
 
 	tmp, err := base.Pop(0)

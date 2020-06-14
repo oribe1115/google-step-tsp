@@ -9,17 +9,19 @@ import (
 func TestInitTour(t *testing.T) {
 	tests := []struct {
 		Label    string
+		Input    int
 		Expected *Tour
 	}{
 		{
 			Label:    "SUCCESS: normal",
+			Input:    0,
 			Expected: &Tour{},
 		},
 	}
 
 	for _, test := range tests {
 		t.Run(test.Label, func(t *testing.T) {
-			got := InitTour()
+			got := InitTour(test.Input)
 			assert.Equal(t, test.Expected, got)
 		})
 	}

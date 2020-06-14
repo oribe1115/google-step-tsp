@@ -1,11 +1,13 @@
 package lib
 
-import "fmt"
+import (
+	"fmt"
+)
 
 type Tour []int
 
-func InitTour() *Tour {
-	tour := make(Tour, 0)
+func InitTour(length int) *Tour {
+	tour := make(Tour, length)
 	return &tour
 }
 
@@ -64,4 +66,16 @@ func (t *Tour) Get(index int) (id int) {
 
 func (t *Tour) Len() int {
 	return len(*t)
+}
+
+func NewSuffledTour(length int) *Tour {
+	tour := InitTour(0)
+	tour.SetDefault(length)
+
+	for i := length - 1; i >= 0; i-- {
+		j := Rand(i + 1)
+		tour.Swap(i, j)
+	}
+
+	return tour
 }
