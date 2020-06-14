@@ -9,6 +9,9 @@ import (
 func GeneticAlgorithm(data *lib.CoordList, generationLimit int) *lib.Tour {
 	dataLength := len(*data)
 	parentsSize := dataLength * 10
+	if parentsSize > 100 {
+		parentsSize = 100
+	}
 	crossoverCount := parentsSize * 4
 	mutationPercent := 10
 
@@ -76,7 +79,17 @@ func selection(childs []*lib.Tour, size int, data *lib.CoordList) []*lib.Tour {
 		selected = append(selected, elite.(*lib.Tour))
 	}
 
+	leastEliteScore := data.TotalDistance(selected[len(selected)-1])
+
 	otherChilds := make([]*lib.Tour, 0)
+	for pq.Len() > rouletteSize {
+		child, priotiry := pq.Pop()
+		if priotiry != leastEliteScore {
+			otherChilds = append(otherChilds, child.(*lib.Tour))
+			break
+		}
+	}
+
 	for pq.Len() != 0 {
 		child, _ := pq.Pop()
 		otherChilds = append(otherChilds, child.(*lib.Tour))
