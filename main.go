@@ -47,16 +47,16 @@ func main() {
 			fmt.Println(err)
 			return
 		}
-		bestDistance := result.TotalDistance()
-		result, err = algo.TwoOpt(result)
+		bestDistance := data.TotalDistance(*result)
+		result, err = algo.TwoOpt(data, result)
 		for {
 			fmt.Printf("best: %f\n", bestDistance)
-			result, err = algo.TwoOpt(result)
-			tmpDistance := result.TotalDistance()
+			result, err = algo.TwoOpt(data, result)
+			tmpDistance := data.TotalDistance(*result)
 			if tmpDistance == bestDistance {
 				break
 			}
-			bestDistance = result.TotalDistance()
+			bestDistance = data.TotalDistance(*result)
 		}
 		break
 	default:
