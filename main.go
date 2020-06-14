@@ -47,16 +47,16 @@ func main() {
 			fmt.Println(err)
 			return
 		}
-		bestDistance := data.TotalDistance(*result)
+		bestDistance := data.TotalDistance(result)
 		result, err = algo.TwoOpt(data, result)
 		for {
 			fmt.Printf("best: %f\n", bestDistance)
 			result, err = algo.TwoOpt(data, result)
-			tmpDistance := data.TotalDistance(*result)
+			tmpDistance := data.TotalDistance(result)
 			if tmpDistance == bestDistance {
 				break
 			}
-			bestDistance = data.TotalDistance(*result)
+			bestDistance = data.TotalDistance(result)
 		}
 		break
 	default:
@@ -64,7 +64,7 @@ func main() {
 		return
 	}
 
-	fmt.Printf("totarDistance: %f\n", data.TotalDistance(*result))
+	fmt.Printf("totarDistance: %f\n", data.TotalDistance(result))
 
 	err = lib.CSVWrite(fmt.Sprintf("./output_%s.csv", fileNo), result)
 	if err != nil {

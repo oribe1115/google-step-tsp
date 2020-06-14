@@ -49,11 +49,19 @@ func (t *Tour) Pop(index int) (id int, err error) {
 		return 0, fmt.Errorf("pop out of range. index=%d", index)
 	}
 
-	id = (*t)[index]
+	id = t.Get(index)
 	err = t.Delete(index)
 	if err != nil {
 		return 0, err
 	}
 
 	return id, nil
+}
+
+func (t *Tour) Get(index int) (id int) {
+	return (*t)[index]
+}
+
+func (t *Tour) Len() int {
+	return len(*t)
 }

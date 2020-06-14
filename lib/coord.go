@@ -37,12 +37,12 @@ func (c *CoordList) Set(coord *Coord) {
 	*c = append(*c, coord)
 }
 
-func (c CoordList) TotalDistance(tour Tour) float64 {
+func (c CoordList) TotalDistance(tour *Tour) float64 {
 	result := float64(0)
-	for i := 0; i < len(tour)-1; i++ {
-		result += c.Distance(tour[i], tour[i+1])
+	for i := 0; i < tour.Len()-1; i++ {
+		result += c.Distance(tour.Get(i), tour.Get(i+1))
 	}
-	result += c.Distance(tour[len(tour)-1], tour[0])
+	result += c.Distance(tour.Get(tour.Len()-1), tour.Get(0))
 	return result
 }
 
@@ -50,7 +50,7 @@ func (c CoordList) Get(id int) *Coord {
 	return c[id]
 }
 
-func (c CoordList) ShouldSwap(indexA int, indexB int, tour Tour) bool {
+func (c CoordList) ShouldSwap(indexA int, indexB int, tour *Tour) bool {
 	if indexA > indexB {
 		indexA, indexB = indexB, indexA
 	}
@@ -66,16 +66,16 @@ func (c CoordList) ShouldSwap(indexA int, indexB int, tour Tour) bool {
 
 	var deletedDist, newDist float64
 	if indexA == 0 && indexB == len(c)-1 {
-		deletedDist = c.Distance(tour[indexA], tour[indexA+1]) + c.Distance(tour[indexB-1], tour[indexB])
-		newDist = c.Distance(tour[indexB], tour[indexA+1]) + c.Distance(tour[indexB-1], tour[indexA])
+		deletedDist = c.Distance(tour.Get(indexA), tour.Get(indexA+1)) + c.Distance(tour.Get(indexB-1), tour.Get(indexB))
+		newDist = c.Distance(tour.Get(indexB), tour.Get(indexA+1)) + c.Distance(tour.Get(indexB-1), tour.Get(indexA))
 	} else if indexA+1 == indexB {
-		deletedDist = c.Distance(tour[indexALeft], tour[indexA]) + c.Distance(tour[indexB], tour[indexBRight])
-		newDist = c.Distance(tour[indexALeft], tour[indexB]) + c.Distance(tour[indexA], tour[indexBRight])
+		deletedDist = c.Distance(tour.Get(indexALeft), tour.Get(indexA)) + c.Distance(tour.Get(indexB), tour.Get(indexBRight))
+		newDist = c.Distance(tour.Get(indexALeft), tour.Get(indexB)) + c.Distance(tour.Get(indexA), tour.Get(indexBRight))
 	} else {
-		deletedByA := c.Distance(tour[indexALeft], tour[indexA]) + c.Distance(tour[indexA], tour[indexA+1])
-		deletedByB := c.Distance(tour[indexB-1], tour[indexB]) + c.Distance(tour[indexB], tour[indexBRight])
-		newByA := c.Distance(tour[indexB-1], tour[indexA]) + c.Distance(tour[indexA], tour[indexBRight])
-		newByB := c.Distance(tour[indexALeft], tour[indexB]) + c.Distance(tour[indexB], tour[indexA+1])
+		deletedByA := c.Distance(tour.Get(indexALeft), tour.Get(indexA)) + c.Distance(tour.Get(indexA), tour.Get(indexA+1))
+		deletedByB := c.Distance(tour.Get(indexB-1), tour.Get(indexB)) + c.Distance(tour.Get(indexB), tour.Get(indexBRight))
+		newByA := c.Distance(tour.Get(indexB-1), tour.Get(indexA)) + c.Distance(tour.Get(indexA), tour.Get(indexBRight))
+		newByB := c.Distance(tour.Get(indexALeft), tour.Get(indexB)) + c.Distance(tour.Get(indexB), tour.Get(indexA+1))
 
 		deletedDist = deletedByA + deletedByB
 		newDist = newByA + newByB

@@ -194,3 +194,47 @@ func TestTourPop(t *testing.T) {
 		})
 	}
 }
+
+func TestTourGet(t *testing.T) {
+	tests := []struct {
+		Label    string
+		Use      *Tour
+		Input    int
+		Expected int
+	}{
+		{
+			Label:    "SUCCESS: normal",
+			Use:      &Tour{1, 2, 3, 4},
+			Input:    2,
+			Expected: 3,
+		},
+	}
+
+	for _, test := range tests {
+		t.Run(test.Label, func(t *testing.T) {
+			got := test.Use.Get(test.Input)
+			assert.Equal(t, test.Expected, got)
+		})
+	}
+}
+
+func TestTourLen(t *testing.T) {
+	tests := []struct {
+		Label    string
+		Use      *Tour
+		Expected int
+	}{
+		{
+			Label:    "SUCCESS: normal",
+			Use:      &Tour{1, 2, 3, 4},
+			Expected: 4,
+		},
+	}
+
+	for _, test := range tests {
+		t.Run(test.Label, func(t *testing.T) {
+			got := test.Use.Len()
+			assert.Equal(t, test.Expected, got)
+		})
+	}
+}

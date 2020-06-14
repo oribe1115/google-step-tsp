@@ -135,7 +135,7 @@ func TestTotalDistance(t *testing.T) {
 	tests := []struct {
 		Label    string
 		Use      *CoordList
-		Input    Tour
+		Input    *Tour
 		Expected float64
 	}{
 		{
@@ -145,7 +145,7 @@ func TestTotalDistance(t *testing.T) {
 				&Coord{1, 1222.0393903625825, 229.56212316547953},
 				&Coord{2, 792.6961393471055, 404.5419583098643},
 			},
-			Input:    Tour{0, 1, 2},
+			Input:    &Tour{0, 1, 2},
 			Expected: 2282.822198906116,
 		},
 	}
@@ -189,7 +189,7 @@ func TestCoordListShouldSwap(t *testing.T) {
 	type input struct {
 		indexA int
 		indexB int
-		tour   Tour
+		tour   *Tour
 	}
 	coordList := &CoordList{
 		{0, 0, 0}, {1, 2, 0}, {2, 4, 0}, {3, 4, 3}, {4, 0, 3},
@@ -206,7 +206,7 @@ func TestCoordListShouldSwap(t *testing.T) {
 			Input: input{
 				indexA: 1,
 				indexB: 3,
-				tour:   Tour{0, 1, 2, 3, 4, 5},
+				tour:   &Tour{0, 1, 2, 3, 4, 5},
 			},
 			Expected: false,
 		},
@@ -216,7 +216,7 @@ func TestCoordListShouldSwap(t *testing.T) {
 			Input: input{
 				indexA: 1,
 				indexB: 3,
-				tour:   Tour{0, 3, 2, 1, 4},
+				tour:   &Tour{0, 3, 2, 1, 4},
 			},
 			Expected: true,
 		},
@@ -226,7 +226,7 @@ func TestCoordListShouldSwap(t *testing.T) {
 			Input: input{
 				indexA: 0,
 				indexB: 2,
-				tour:   Tour{2, 1, 0, 3, 4},
+				tour:   &Tour{2, 1, 0, 3, 4},
 			},
 			Expected: true,
 		},
@@ -236,7 +236,7 @@ func TestCoordListShouldSwap(t *testing.T) {
 			Input: input{
 				indexA: 2,
 				indexB: 4,
-				tour:   Tour{0, 1, 2, 3, 4},
+				tour:   &Tour{0, 1, 2, 3, 4},
 			},
 			Expected: false,
 		},
@@ -246,7 +246,7 @@ func TestCoordListShouldSwap(t *testing.T) {
 			Input: input{
 				indexA: 1,
 				indexB: 2,
-				tour:   Tour{0, 2, 1, 3, 4},
+				tour:   &Tour{0, 2, 1, 3, 4},
 			},
 			Expected: true,
 		},
@@ -256,7 +256,7 @@ func TestCoordListShouldSwap(t *testing.T) {
 			Input: input{
 				indexA: 0,
 				indexB: 4,
-				tour:   Tour{0, 1, 2, 3, 4},
+				tour:   &Tour{0, 1, 2, 3, 4},
 			},
 			Expected: false,
 		},
@@ -266,7 +266,7 @@ func TestCoordListShouldSwap(t *testing.T) {
 			Input: input{
 				indexA: 0,
 				indexB: 1,
-				tour:   Tour{0, 1, 2, 3, 4},
+				tour:   &Tour{0, 1, 2, 3, 4},
 			},
 			Expected: false,
 		},
