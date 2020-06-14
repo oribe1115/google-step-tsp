@@ -18,7 +18,11 @@ func GeneticAlgorithm(data *lib.CoordList) *lib.Tour {
 	}
 
 	for i := 0; i < generationLimit; i++ {
-		fmt.Printf("gene: %d, bestDistance: %f\n", i, data.TotalDistance(parents[0]))
+		output := fmt.Sprintf("gene %2d: ", i)
+		for _, parent := range parents {
+			output += fmt.Sprintf("%f ", data.TotalDistance(parent))
+		}
+		fmt.Println(output)
 
 		childs := make([]*lib.Tour, 0)
 		for j := 0; j < crossoverCount; j++ {
@@ -51,7 +55,7 @@ func crossover(father *lib.Tour, mother *lib.Tour) []*lib.Tour {
 
 func selection(childs []*lib.Tour, size int, data *lib.CoordList) []*lib.Tour {
 	selected := make([]*lib.Tour, 0)
-	eliteSize := size / 2
+	eliteSize := size * 2 / 10
 	rouletteSize := size - eliteSize
 
 	pq := lib.InitPriorityQueue()
