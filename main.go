@@ -20,7 +20,7 @@ func main() {
 		return
 	}
 
-	data := lib.InitCoordList(0)
+	data := lib.InitCoordList()
 	for i, d := range csvData {
 		data.Set(lib.CreateCoord(i, d[0], d[1]))
 	}
@@ -31,7 +31,7 @@ func main() {
 	fmt.Printf("> ")
 	input := lib.ReadLine()
 
-	var result *lib.CoordList
+	var result *lib.Tour
 
 	switch input {
 	case "1":
@@ -64,7 +64,7 @@ func main() {
 		return
 	}
 
-	fmt.Printf("totarDistance: %f\n", result.TotalDistance())
+	fmt.Printf("totarDistance: %f\n", data.TotalDistance(*result))
 
 	err = lib.CSVWrite(fmt.Sprintf("./output_%s.csv", fileNo), result)
 	if err != nil {

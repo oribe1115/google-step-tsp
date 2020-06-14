@@ -42,11 +42,11 @@ func CSVRead(filename string) ([][]float64, error) {
 	return coordData, nil
 }
 
-func CSVWrite(filename string, coordList *CoordList) error {
+func CSVWrite(filename string, tour *Tour) error {
 	record := make([][]string, 0)
 	record = append(record, []string{"index"})
-	for _, coord := range *coordList {
-		record = append(record, []string{fmt.Sprintf("%d", coord.ID)})
+	for _, id := range *tour {
+		record = append(record, []string{fmt.Sprintf("%d", id)})
 	}
 
 	file, err := os.Create(filename)

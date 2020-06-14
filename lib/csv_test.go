@@ -52,16 +52,13 @@ func TestCSVWrite(t *testing.T) {
 	filename := "./testdata/out.csv"
 	tests := []struct {
 		Label    string
-		Input    *CoordList
+		Input    *Tour
 		Expected string
 		IsError  bool
 	}{
 		{
-			Label: "SUCCESS: normal",
-			Input: &CoordList{
-				&Coord{0, 214.98279057984195, 762.6903632435094},
-				&Coord{1, 1222.0393903625825, 229.56212316547953},
-			},
+			Label:    "SUCCESS: normal",
+			Input:    &Tour{0, 1},
 			Expected: "index\n0\n1\n",
 			IsError:  false,
 		},
