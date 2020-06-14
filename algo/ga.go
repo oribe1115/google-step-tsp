@@ -8,7 +8,7 @@ import (
 
 func GeneticAlgorithm(data *lib.CoordList, generationLimit int) *lib.Tour {
 	parentsSize := 50
-	crossoverCount := 100
+	crossoverCount := parentsSize * 4
 	mutationPercent := 10
 
 	parents := make([]*lib.Tour, 0)
