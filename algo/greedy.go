@@ -1,6 +1,8 @@
 package algo
 
-import "github.com/oribe1115/google-step-tsp/lib"
+import (
+	"github.com/oribe1115/google-step-tsp/lib"
+)
 
 func Greedy(data *lib.CoordList) (*lib.Tour, error) {
 	result := lib.InitTour()
@@ -29,6 +31,7 @@ func Greedy(data *lib.CoordList) (*lib.Tour, error) {
 		if err != nil {
 			return nil, err
 		}
+		tmp = id
 		result.Set(id)
 	}
 

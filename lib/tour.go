@@ -44,13 +44,13 @@ func (t *Tour) Delete(index int) error {
 	return nil
 }
 
-func (t *Tour) Pop(index int) (int, error) {
+func (t *Tour) Pop(index int) (id int, err error) {
 	if index < 0 || index > len(*t)-1 {
 		return 0, fmt.Errorf("pop out of range. index=%d", index)
 	}
 
-	id := (*t)[index]
-	err := t.Delete(index)
+	id = (*t)[index]
+	err = t.Delete(index)
 	if err != nil {
 		return 0, err
 	}
