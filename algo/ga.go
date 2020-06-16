@@ -31,7 +31,7 @@ func GeneticAlgorithm(data *lib.CoordList, generationLimit int) *lib.Tour {
 
 		for j := 0; j < len(parents); j++ {
 			if lib.Rand(100) < mutationPercent {
-				parents[j] = mutation(parents[j])
+				parents[j] = mutation(data, parents[j])
 			}
 		}
 
@@ -104,8 +104,17 @@ func selection(childs []*lib.Tour, size int, data *lib.CoordList) []*lib.Tour {
 	return selected
 }
 
-func mutation(parent *lib.Tour) *lib.Tour {
-	// スクランブル
+func mutation(data *lib.CoordList, parent *lib.Tour) *lib.Tour {
+	rand := lib.Rand(100)
+	if rand < 50 {
+		// fmt.Println("mutation: 2-opt")
+		return twoOptMutaion(data, parent)
+	}
+	// fmt.Println("mutation: scramble")
+	return scrambleMutation(parent)
+}
+
+func scrambleMutation(parent *lib.Tour) *lib.Tour {
 	length := parent.Len()
 	indexA := lib.Rand(length)
 	indexB := lib.Rand(length)
@@ -129,4 +138,12 @@ func mutation(parent *lib.Tour) *lib.Tour {
 	}
 
 	return &new
+}
+
+func twoOptMutaion(data *lib.CoordList, parent *lib.Tour) *lib.Tour {
+	res, err := TwoOpt(data, parent)
+	if err != nil {
+		panic(err)
+	}
+	return res
 }
