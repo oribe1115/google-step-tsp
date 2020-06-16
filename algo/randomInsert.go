@@ -1,8 +1,6 @@
 package algo
 
 import (
-	"fmt"
-
 	"github.com/oribe1115/google-step-tsp/lib"
 )
 
@@ -26,7 +24,6 @@ func RandomInsert(data *lib.CoordList) (*lib.Tour, error) {
 		}
 		index := findInsertIndex(tmpID, result, data)
 		result.Insert(index, tmpID)
-		fmt.Printf("%v\n", result)
 	}
 
 	return result, nil
