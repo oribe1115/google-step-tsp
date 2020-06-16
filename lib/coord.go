@@ -58,14 +58,14 @@ func (c CoordList) ShouldSwap(indexA int, indexB int, tour *Tour) bool {
 	indexALeft := indexA - 1
 	indexBRight := indexB + 1
 	if indexA == 0 {
-		indexALeft = len(c) - 1
+		indexALeft = tour.Len() - 1
 	}
-	if indexB == len(c)-1 {
+	if indexB == tour.Len()-1 {
 		indexBRight = 0
 	}
 
 	var deletedDist, newDist float64
-	if indexA == 0 && indexB == len(c)-1 {
+	if indexA == 0 && indexB == tour.Len()-1 {
 		deletedDist = c.Distance(tour.Get(indexA), tour.Get(indexA+1)) + c.Distance(tour.Get(indexB-1), tour.Get(indexB))
 		newDist = c.Distance(tour.Get(indexB), tour.Get(indexA+1)) + c.Distance(tour.Get(indexB-1), tour.Get(indexA))
 	} else if indexA+1 == indexB {

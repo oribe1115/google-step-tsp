@@ -32,6 +32,7 @@ func main() {
 	fmt.Println("3. GeneticAlgorithm")
 	fmt.Println("4: RandomInsert")
 	fmt.Println("5: RandomInsert&2-opt")
+	fmt.Println("6: RandomInsert中に2-opt")
 	fmt.Printf("> ")
 	input := lib.ReadLine()
 
@@ -97,6 +98,13 @@ func main() {
 				break
 			}
 			bestDistance = data.TotalDistance(result)
+		}
+		break
+	case "6":
+		result, err = algo.RandomInsertWithTwoOpt(data)
+		if err != nil {
+			fmt.Println(err)
+			return
 		}
 		break
 	default:

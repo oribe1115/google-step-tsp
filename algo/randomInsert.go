@@ -1,6 +1,8 @@
 package algo
 
 import (
+	"fmt"
+
 	"github.com/oribe1115/google-step-tsp/lib"
 )
 
@@ -24,6 +26,49 @@ func RandomInsert(data *lib.CoordList) (*lib.Tour, error) {
 		}
 		index := findInsertIndex(tmpID, result, data)
 		result.Insert(index, tmpID)
+	}
+
+	return result, nil
+}
+
+func RandomInsertWithTwoOpt(data *lib.CoordList) (*lib.Tour, error) {
+	result := lib.InitTour(0)
+	base := lib.InitTour(0)
+	base.SetDefault(len(*data))
+
+	for i := 0; i < 2; i++ {
+		tmpID, err := base.Pop(0)
+		if err != nil {
+			return nil, err
+		}
+		result.Set(tmpID)
+	}
+
+	for base.Len() != 0 {
+		tmpID, err := base.Pop(0)
+		if err != nil {
+			return nil, err
+		}
+		index := findInsertIndex(tmpID, result, data)
+		result.Insert(index, tmpID)
+
+		bestDistance := data.TotalDistance(result)
+		result, err = TwoOptForOtherUse(data, result)
+		if err != nil {
+			return nil, err
+		}
+		for {
+			result, err = TwoOptForOtherUse(data, result)
+			if err != nil {
+				return nil, err
+			}
+			tmpDistance := data.TotalDistance(result)
+			if tmpDistance == bestDistance {
+				break
+			}
+			bestDistance = data.TotalDistance(result)
+		}
+		fmt.Printf("%4d: %f\n", tmpID, bestDistance)
 	}
 
 	return result, nil
