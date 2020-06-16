@@ -82,3 +82,11 @@ func (t Tour) Suffle() {
 		t.Swap(i, j)
 	}
 }
+
+func (t *Tour) Insert(index int, id int) {
+	old := *t
+	new := make(Tour, 0)
+	new = append([]int{id}, old[index:]...)
+	new = append(old[:index], new...)
+	*t = new
+}

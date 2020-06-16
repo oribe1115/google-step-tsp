@@ -240,3 +240,42 @@ func TestTourLen(t *testing.T) {
 		})
 	}
 }
+
+func TestToureInsert(t *testing.T) {
+	type input struct {
+		index int
+		id    int
+	}
+	tests := []struct {
+		Label    string
+		Use      *Tour
+		Input    input
+		Expected *Tour
+	}{
+		{
+			Label:    "SUCCESS: normal",
+			Use:      &Tour{0, 1, 2, 3, 4},
+			Input:    input{2, 5},
+			Expected: &Tour{0, 1, 5, 2, 3, 4},
+		},
+		{
+			Label:    "SUCCESS: index=0",
+			Use:      &Tour{0, 1, 2, 3, 4},
+			Input:    input{0, 5},
+			Expected: &Tour{5, 0, 1, 2, 3, 4},
+		},
+		{
+			Label:    "SUCCESS: index=len",
+			Use:      &Tour{0, 1, 2, 3, 4},
+			Input:    input{5, 5},
+			Expected: &Tour{0, 1, 2, 3, 4, 5},
+		},
+	}
+
+	for _, test := range tests {
+		t.Run(test.Label, func(t *testing.T) {
+			test.Use.Insert(test.Input.index, test.Input.id)
+			assert.Equal(t, test.Expected, test.Use)
+		})
+	}
+}
