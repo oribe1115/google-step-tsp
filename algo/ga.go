@@ -20,6 +20,9 @@ func GeneticAlgorithm(data *lib.CoordList, generationLimit int) *lib.Tour {
 		parents = append(parents, lib.NewSuffledTour(dataLength))
 	}
 
+	watchDist := data.TotalDistance(parents[0])
+	watchGene := 0
+
 	for i := 0; i < generationLimit; i++ {
 		// output := fmt.Sprintf("gene %2d: ", i)
 		// for _, parent := range parents {
@@ -28,6 +31,15 @@ func GeneticAlgorithm(data *lib.CoordList, generationLimit int) *lib.Tour {
 		// fmt.Println(output)
 
 		fmt.Printf("gene %2d: %f, %f, %f\n", i, data.TotalDistance(parents[0]), data.TotalDistance(parents[parentsSize/2]), data.TotalDistance(parents[parentsSize-1]))
+
+		tmpDist := data.TotalDistance(parents[0])
+		if tmpDist != watchDist {
+			watchDist = tmpDist
+			watchGene = i
+			mutationPercent = 30
+		} else if watchGene-i > 10 {
+			mutationPercent = 90
+		}
 
 		for j := 0; j < len(parents); j++ {
 			if lib.Rand(100) < mutationPercent {
