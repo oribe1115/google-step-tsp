@@ -30,6 +30,7 @@ func main() {
 	fmt.Println("1. Greedy")
 	fmt.Println("2. 2-opt")
 	fmt.Println("3. GeneticAlgorithm")
+	fmt.Println("4: RandomInsert")
 	fmt.Printf("> ")
 	input := lib.ReadLine()
 
@@ -71,6 +72,14 @@ func main() {
 			return
 		}
 		result = algo.GeneticAlgorithm(data, limit)
+		break
+	case "4":
+		result, err = algo.RandomInsert(data)
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+		break
 	default:
 		fmt.Println("Invalid input")
 		return

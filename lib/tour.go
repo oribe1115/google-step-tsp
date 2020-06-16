@@ -11,8 +11,8 @@ func InitTour(length int) *Tour {
 	return &tour
 }
 
-func (t *Tour) Set(index int) {
-	*t = append(*t, index)
+func (t *Tour) Set(id int) {
+	*t = append(*t, id)
 }
 
 func (t *Tour) SetDefault(length int) {
