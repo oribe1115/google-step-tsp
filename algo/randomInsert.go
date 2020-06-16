@@ -34,12 +34,17 @@ func findInsertIndex(id int, tour *lib.Tour, data *lib.CoordList) int {
 	minDistance := float64(99999999999)
 
 	for i := 0; i < tour.Len(); i++ {
-		var tmp float64
+		var deletedDist float64
+		var newDist float64
 		if i == 0 {
-			tmp = data.Distance(tour.Get(tour.Len()-1), id) + data.Distance(id, tour.Get(i))
+			deletedDist = data.Distance(tour.Get(tour.Len()-1), i)
+			newDist = data.Distance(tour.Get(tour.Len()-1), id) + data.Distance(id, tour.Get(i))
 		} else {
-			tmp = data.Distance(tour.Get(i-1), id) + data.Distance(id, tour.Get(i))
+			deletedDist = data.Distance(tour.Get(i-1), tour.Get(i))
+			newDist = data.Distance(tour.Get(i-1), id) + data.Distance(id, tour.Get(i))
 		}
+
+		tmp := newDist - deletedDist
 
 		if tmp < minDistance {
 			minDistance = tmp
