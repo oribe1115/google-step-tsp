@@ -28,9 +28,10 @@ func main() {
 
 	fmt.Println("Choose alogorithm")
 	fmt.Println("1. Greedy")
-	fmt.Println("2. 2-opt")
+	fmt.Println("2. Greedy&2-opt")
 	fmt.Println("3. GeneticAlgorithm")
 	fmt.Println("4: RandomInsert")
+	fmt.Println("5: RandomInsert&2-opt")
 	fmt.Printf("> ")
 	input := lib.ReadLine()
 
@@ -78,6 +79,24 @@ func main() {
 		if err != nil {
 			fmt.Println(err)
 			return
+		}
+		break
+	case "5":
+		result, err = algo.RandomInsert(data)
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+		bestDistance := data.TotalDistance(result)
+		result, err = algo.TwoOpt(data, result)
+		for {
+			fmt.Printf("best: %f\n", bestDistance)
+			result, err = algo.TwoOpt(data, result)
+			tmpDistance := data.TotalDistance(result)
+			if tmpDistance == bestDistance {
+				break
+			}
+			bestDistance = data.TotalDistance(result)
 		}
 		break
 	default:
