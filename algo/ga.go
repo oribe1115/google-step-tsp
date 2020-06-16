@@ -2,6 +2,7 @@ package algo
 
 import (
 	"fmt"
+	"strconv"
 
 	"github.com/oribe1115/google-step-tsp/lib"
 )
@@ -56,6 +57,18 @@ func GeneticAlgorithm(data *lib.CoordList, generationLimit int) *lib.Tour {
 		}
 
 		parents = selection(childs, parentsSize, data)
+
+		if i == generationLimit-1 {
+			fmt.Println("if you want add generationLimit, input add number")
+			fmt.Printf("> ")
+			input := lib.ReadLine()
+			num, err := strconv.Atoi(input)
+			if err != nil {
+				fmt.Println(err)
+				break
+			}
+			generationLimit += num
+		}
 	}
 
 	return parents[0]
