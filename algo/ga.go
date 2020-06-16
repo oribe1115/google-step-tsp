@@ -13,7 +13,7 @@ func GeneticAlgorithm(data *lib.CoordList, generationLimit int) *lib.Tour {
 		parentsSize = 100
 	}
 	crossoverCount := parentsSize * 4
-	mutationPercent := 10
+	mutationPercent := 30
 
 	parents := make([]*lib.Tour, 0)
 	for i := 0; i < parentsSize; i++ {
