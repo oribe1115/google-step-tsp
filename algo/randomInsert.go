@@ -53,12 +53,12 @@ func RandomInsertWithTwoOpt(data *lib.CoordList) (*lib.Tour, error) {
 		result.Insert(index, tmpID)
 
 		bestDistance := data.TotalDistance(result)
-		result, err = TwoOptForOtherUse(data, result)
+		result, err = TwoOpt(data, result)
 		if err != nil {
 			return nil, err
 		}
 		for {
-			result, err = TwoOptForOtherUse(data, result)
+			result, err = TwoOpt(data, result)
 			if err != nil {
 				return nil, err
 			}

@@ -25,12 +25,6 @@ func GeneticAlgorithm(data *lib.CoordList, generationLimit int) *lib.Tour {
 	watchGene := 0
 
 	for i := 0; i < generationLimit; i++ {
-		// output := fmt.Sprintf("gene %2d: ", i)
-		// for _, parent := range parents {
-		// 	output += fmt.Sprintf("%f ", data.TotalDistance(parent))
-		// }
-		// fmt.Println(output)
-
 		fmt.Printf("gene %2d: %f, %f, %f\n", i, data.TotalDistance(parents[0]), data.TotalDistance(parents[parentsSize/2]), data.TotalDistance(parents[parentsSize-1]))
 
 		tmpDist := data.TotalDistance(parents[0])
@@ -132,10 +126,8 @@ func selection(childs []*lib.Tour, size int, data *lib.CoordList) []*lib.Tour {
 func mutation(data *lib.CoordList, parent *lib.Tour) *lib.Tour {
 	rand := lib.Rand(100)
 	if rand < 50 {
-		// fmt.Println("mutation: 2-opt")
 		return twoOptMutaion(data, parent)
 	}
-	// fmt.Println("mutation: scramble")
 	return scrambleMutation(parent)
 }
 
@@ -146,8 +138,6 @@ func scrambleMutation(parent *lib.Tour) *lib.Tour {
 	if indexA > indexB {
 		indexA, indexB = indexB, indexA
 	}
-
-	// fmt.Printf("--- mutation: %d, %d\n", indexA, indexB)
 
 	old := *parent
 

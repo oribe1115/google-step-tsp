@@ -16,7 +16,7 @@ func Greedy(data *lib.CoordList) (*lib.Tour, error) {
 
 	result.Set(tmp)
 
-	for len(*base) != 0 {
+	for base.Len() != 0 {
 		minIndex := 0
 		minDistance := float64(99999999999)
 
