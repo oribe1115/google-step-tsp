@@ -7,6 +7,7 @@ import (
 	"strconv"
 )
 
+// CSVRead csvから座標データを読み取って返す
 func CSVRead(filename string) ([][]float64, error) {
 	file, err := os.Open(filename)
 	if err != nil {
@@ -42,6 +43,7 @@ func CSVRead(filename string) ([][]float64, error) {
 	return coordData, nil
 }
 
+// CSVWrite csvに経路を書き込む
 func CSVWrite(filename string, tour *Tour) error {
 	record := make([][]string, 0)
 	record = append(record, []string{"index"})
