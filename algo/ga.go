@@ -7,6 +7,7 @@ import (
 	"github.com/oribe1115/google-step-tsp/lib"
 )
 
+// GeneticAlgorithm 遺伝的アルゴリズム
 func GeneticAlgorithm(data *lib.CoordList, generationLimit int) *lib.Tour {
 	dataLength := len(*data)
 	parentsSize := dataLength * 10
@@ -68,6 +69,7 @@ func GeneticAlgorithm(data *lib.CoordList, generationLimit int) *lib.Tour {
 	return parents[0]
 }
 
+// crossover　交叉
 func crossover(father *lib.Tour, mother *lib.Tour) []*lib.Tour {
 	length := father.Len()
 	childA := lib.InitTour(length)
@@ -83,6 +85,7 @@ func crossover(father *lib.Tour, mother *lib.Tour) []*lib.Tour {
 	return []*lib.Tour{childA, childB}
 }
 
+// selection 選択
 func selection(childs []*lib.Tour, size int, data *lib.CoordList) []*lib.Tour {
 	selected := make([]*lib.Tour, 0)
 	eliteSize := size * 2 / 10
@@ -123,6 +126,7 @@ func selection(childs []*lib.Tour, size int, data *lib.CoordList) []*lib.Tour {
 	return selected
 }
 
+// mutation 突然変異
 func mutation(data *lib.CoordList, parent *lib.Tour) *lib.Tour {
 	rand := lib.Rand(100)
 	if rand < 50 {
@@ -131,6 +135,7 @@ func mutation(data *lib.CoordList, parent *lib.Tour) *lib.Tour {
 	return scrambleMutation(parent)
 }
 
+// scrambleMutation スクランブル法による突然変異
 func scrambleMutation(parent *lib.Tour) *lib.Tour {
 	length := parent.Len()
 	indexA := lib.Rand(length)
@@ -155,6 +160,7 @@ func scrambleMutation(parent *lib.Tour) *lib.Tour {
 	return &new
 }
 
+// twoOptMutaion 2-optによる突然変異
 func twoOptMutaion(data *lib.CoordList, parent *lib.Tour) *lib.Tour {
 	res, err := TwoOpt(data, parent)
 	if err != nil {

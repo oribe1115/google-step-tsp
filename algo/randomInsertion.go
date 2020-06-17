@@ -6,7 +6,8 @@ import (
 	"github.com/oribe1115/google-step-tsp/lib"
 )
 
-func RandomInsert(data *lib.CoordList) (*lib.Tour, error) {
+// RandomInsertion RandomInsertion法
+func RandomInsertion(data *lib.CoordList) (*lib.Tour, error) {
 	result := lib.InitTour(0)
 	base := lib.InitTour(0)
 	base.SetDefault(len(*data))
@@ -31,7 +32,8 @@ func RandomInsert(data *lib.CoordList) (*lib.Tour, error) {
 	return result, nil
 }
 
-func RandomInsertWithTwoOpt(data *lib.CoordList) (*lib.Tour, error) {
+// RandomInsertionWithTwoOpt RandomInsertion法で1頂点追加するごとに2-optで最適化
+func RandomInsertionWithTwoOpt(data *lib.CoordList) (*lib.Tour, error) {
 	result := lib.InitTour(0)
 	base := lib.InitTour(0)
 	base.SetDefault(len(*data))
@@ -74,6 +76,7 @@ func RandomInsertWithTwoOpt(data *lib.CoordList) (*lib.Tour, error) {
 	return result, nil
 }
 
+// findInsertIndex 新しい頂点を追加したときに距離の増加量が最も少ないindexを返す
 func findInsertIndex(id int, tour *lib.Tour, data *lib.CoordList) int {
 	minIndex := 0
 	minDistance := float64(99999999999)

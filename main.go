@@ -28,11 +28,11 @@ func main() {
 
 	fmt.Println("Choose alogorithm")
 	fmt.Println("1. Greedy")
-	fmt.Println("2. Greedy&2-opt")
+	fmt.Println("2. Greedyの後2-optで最適化")
 	fmt.Println("3. GeneticAlgorithm")
-	fmt.Println("4: RandomInsert")
-	fmt.Println("5: RandomInsert&2-opt")
-	fmt.Println("6: RandomInsert中に2-opt")
+	fmt.Println("4: RandomInsertion")
+	fmt.Println("5: RandomInsertionの後2-optで最適化")
+	fmt.Println("6: RandomInsertionで1頂点追加するごとに2-optで最適化")
 	fmt.Printf("> ")
 	input := lib.ReadLine()
 
@@ -76,14 +76,14 @@ func main() {
 		result = algo.GeneticAlgorithm(data, limit)
 		break
 	case "4":
-		result, err = algo.RandomInsert(data)
+		result, err = algo.RandomInsertion(data)
 		if err != nil {
 			fmt.Println(err)
 			return
 		}
 		break
 	case "5":
-		result, err = algo.RandomInsert(data)
+		result, err = algo.RandomInsertion(data)
 		if err != nil {
 			fmt.Println(err)
 			return
@@ -101,7 +101,7 @@ func main() {
 		}
 		break
 	case "6":
-		result, err = algo.RandomInsertWithTwoOpt(data)
+		result, err = algo.RandomInsertionWithTwoOpt(data)
 		if err != nil {
 			fmt.Println(err)
 			return

@@ -4,6 +4,7 @@ import (
 	"github.com/oribe1115/google-step-tsp/lib"
 )
 
+// Greedy 貪欲法
 func Greedy(data *lib.CoordList) (*lib.Tour, error) {
 	result := lib.InitTour(0)
 	base := lib.InitTour(0)
