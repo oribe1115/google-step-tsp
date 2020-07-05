@@ -1,6 +1,8 @@
 package algo
 
 import (
+	"fmt"
+
 	"github.com/oribe1115/google-step-tsp/lib"
 )
 
@@ -28,6 +30,28 @@ func SwapRepeat(data *lib.CoordList, tour *lib.Tour) (*lib.Tour, error) {
 
 		oldDistance = tmpDistance
 		tmpDistance = data.TotalDistance(tour)
+	}
+
+	return tour, nil
+}
+
+func SwapAndTwoOptRepeat(data *lib.CoordList, tour *lib.Tour) (*lib.Tour, error) {
+	oldDist := data.TotalDistance(tour)
+	tour, err := Swap(data, tour)
+	if err != nil {
+		return nil, err
+	}
+	tmpDist := data.TotalDistance(tour)
+	fmt.Printf("start: %f\n", tmpDist)
+	for i := 0; tmpDist != oldDist; i++ {
+		tour = TwoOpt(data, tour)
+		tour, err = Swap(data, tour)
+		if err != nil {
+			return nil, err
+		}
+		oldDist = tmpDist
+		tmpDist = data.TotalDistance(tour)
+		fmt.Printf("i: %d, %f\n", i, tmpDist)
 	}
 
 	return tour, nil

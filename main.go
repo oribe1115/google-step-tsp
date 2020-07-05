@@ -36,6 +36,7 @@ func main() {
 	fmt.Println("7: 分割統治法")
 	fmt.Println("8: Greedyの後2-optで最適化")
 	fmt.Println("9: RandomInsertionの後2-optで最適化")
+	fmt.Println("10: Swapと2-optを交互に行って最適化")
 	fmt.Printf("> ")
 	input := lib.ReadLine()
 
@@ -107,6 +108,17 @@ func main() {
 			return
 		}
 		result = algo.TwoOptRepeat(data, result)
+	case "10":
+		result, err = algo.Greedy(data)
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+		result, err = algo.SwapAndTwoOptRepeat(data, result)
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
 	default:
 		fmt.Println("Invalid input")
 		return
