@@ -90,7 +90,7 @@ func (t *Territory) execDevideAndConsquer(data *lib.CoordList) {
 	t.Tour = merged.Tour
 
 	fmt.Printf("x:%f - %f, y:%f - %f\n", t.Xmin, t.Xmax, t.Ymin, t.Ymax)
-	fmt.Printf("\t%v\n", t.Tour)
+	// fmt.Printf("\t%v\n", t.Tour)
 }
 
 func initTerritory(xmin, ymin, xmax, ymax float64) *Territory {
