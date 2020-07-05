@@ -160,7 +160,7 @@ func scrambleMutation(parent *lib.Tour) *lib.Tour {
 	return &new
 }
 
-// swapMutaion 2-optによる突然変異
+// swapMutaion swapによる突然変異
 func swapMutaion(data *lib.CoordList, parent *lib.Tour) *lib.Tour {
 	res, err := Swap(data, parent)
 	if err != nil {
