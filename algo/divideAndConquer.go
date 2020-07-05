@@ -73,13 +73,21 @@ func (t *Territory) execDevideAndConsquer(data *lib.CoordList) {
 	}
 
 	top := mergeHorizonal(territories[0], territories[1], data)
-	bottom := mergeHorizonal(territories[2], territories[3], data)
+	if len(*top.Tour) > 3 {
+		top.Tour, _ = TwoOptRepeat(data, top.Tour)
+	}
 
-	top.Tour, _ = TwoOptRepeat(data, top.Tour)
-	bottom.Tour, _ = TwoOptRepeat(data, bottom.Tour)
+	bottom := mergeHorizonal(territories[2], territories[3], data)
+	if len(*bottom.Tour) > 3 {
+		bottom.Tour, _ = TwoOptRepeat(data, bottom.Tour)
+	}
 
 	merged := mergeVertical(top, bottom, data)
-	t.Tour, _ = TwoOptRepeat(data, merged.Tour)
+	if len(*merged.Tour) > 3 {
+		merged.Tour, _ = TwoOptRepeat(data, merged.Tour)
+	}
+
+	t.Tour = merged.Tour
 
 	fmt.Printf("x:%f - %f, y:%f - %f\n", t.Xmin, t.Xmax, t.Ymin, t.Ymax)
 	fmt.Printf("\t%v\n", t.Tour)
