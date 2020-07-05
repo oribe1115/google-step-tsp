@@ -1,6 +1,8 @@
 package algo
 
 import (
+	"math"
+
 	"github.com/oribe1115/google-step-tsp/lib"
 )
 
@@ -69,9 +71,9 @@ func (t *Territory) execDevideAndConsquer(data *lib.CoordList) {
 		territories[i].execDevideAndConsquer(data)
 	}
 
-	top := mergeHorizonal(territories[0], territories[1])
-	bottom := mergeHorizonal(territories[2], territories[3])
-	merged := mergeVertical(top, bottom)
+	top := mergeHorizonal(territories[0], territories[1], data)
+	bottom := mergeHorizonal(territories[2], territories[3], data)
+	merged := mergeVertical(top, bottom, data)
 	t.Tour = merged.Tour
 }
 
@@ -85,10 +87,43 @@ func initTerritory(xmin, ymin, xmax, ymax float64) *Territory {
 	}
 }
 
-func mergeHorizonal(left, right *Territory) *Territory {
+func mergeHorizonal(left, right *Territory, data *lib.CoordList) *Territory {
+	// とりあえずほぼ総当たり
+	bestDiff := math.MaxFloat64
+	bestLeftIndex := 0
+	bestRightIndex := 0
 
+	for i := 0; i < len(*left.Tour)-1; i++ {
+		leftID := left.Tour.Get(i)
+		leftNextID := left.Tour.Get(i + 1)
+		for j := 0; j < len(*right.Tour)-1; j++ {
+			rightID := right.Tour.Get(j)
+			rightNextID := right.Tour.Get(j + 1)
+			diff := data.Distance(leftID, rightID) + data.Distance(leftNextID, rightNextID) - data.Distance(leftID, leftNextID) - data.Distance(rightID, rightNextID)
+			if diff < bestDiff {
+				bestLeftIndex = i
+				bestRightIndex = j
+			}
+		}
+	}
+
+	territory := initTerritory(left.Xmin, left.Ymin, right.Xmax, left.Ymax)
+	tour := *territory.Tour
+	leftTour := *left.Tour
+	rightTour := *right.Tour
+
+	tour = append(tour, leftTour[:bestLeftIndex+1]...)
+	tour = append(tour, rightTour[bestRightIndex:]...)
+	tour = append(tour, rightTour[:bestRightIndex]...)
+	tour = append(tour, leftTour[bestLeftIndex+1:]...)
+
+	if territory.Tour.Len() == 0 {
+		panic("territory.Tour not tour")
+	}
+
+	return territory
 }
 
-func mergeVertical(top, bottom *Territory) *Territory {
+func mergeVertical(top, bottom *Territory, data *lib.CoordList) *Territory {
 
 }
