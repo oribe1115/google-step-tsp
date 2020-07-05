@@ -53,17 +53,7 @@ func main() {
 			fmt.Println(err)
 			return
 		}
-		bestDistance := data.TotalDistance(result)
-		result, err = algo.TwoOpt(data, result)
-		for {
-			fmt.Printf("best: %f\n", bestDistance)
-			result, err = algo.TwoOpt(data, result)
-			tmpDistance := data.TotalDistance(result)
-			if tmpDistance == bestDistance {
-				break
-			}
-			bestDistance = data.TotalDistance(result)
-		}
+		result, err = algo.TwoOptRepeat(data, result)
 		break
 	case "3":
 		fmt.Println("Input Generarion Limit")

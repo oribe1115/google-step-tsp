@@ -15,3 +15,20 @@ func TwoOpt(data *lib.CoordList, tour *lib.Tour) (*lib.Tour, error) {
 	}
 	return tour, nil
 }
+
+func TwoOptRepeat(data *lib.CoordList, tour *lib.Tour) (*lib.Tour, error) {
+	oldDistance := data.TotalDistance(tour)
+	tmpDistance := float64(0)
+
+	for oldDistance != tmpDistance {
+		tour, err := TwoOpt(data, tour)
+		if err != nil {
+			return nil, err
+		}
+
+		oldDistance = tmpDistance
+		tmpDistance = data.TotalDistance(tour)
+	}
+
+	return tour, nil
+}
