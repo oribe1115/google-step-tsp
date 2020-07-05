@@ -88,42 +88,92 @@ func initTerritory(xmin, ymin, xmax, ymax float64) *Territory {
 }
 
 func mergeHorizonal(left, right *Territory, data *lib.CoordList) *Territory {
-	// とりあえずほぼ総当たり
-	bestDiff := math.MaxFloat64
-	bestLeftIndex := 0
-	bestRightIndex := 0
-
-	for i := 0; i < len(*left.Tour)-1; i++ {
-		leftID := left.Tour.Get(i)
-		leftNextID := left.Tour.Get(i + 1)
-		for j := 0; j < len(*right.Tour)-1; j++ {
-			rightID := right.Tour.Get(j)
-			rightNextID := right.Tour.Get(j + 1)
-			diff := data.Distance(leftID, rightID) + data.Distance(leftNextID, rightNextID) - data.Distance(leftID, leftNextID) - data.Distance(rightID, rightNextID)
-			if diff < bestDiff {
-				bestLeftIndex = i
-				bestRightIndex = j
-			}
-		}
-	}
-
 	territory := initTerritory(left.Xmin, left.Ymin, right.Xmax, left.Ymax)
-	tour := *territory.Tour
-	leftTour := *left.Tour
-	rightTour := *right.Tour
-
-	tour = append(tour, leftTour[:bestLeftIndex+1]...)
-	tour = append(tour, rightTour[bestRightIndex:]...)
-	tour = append(tour, rightTour[:bestRightIndex]...)
-	tour = append(tour, leftTour[bestLeftIndex+1:]...)
-
-	if territory.Tour.Len() == 0 {
-		panic("territory.Tour not tour")
-	}
+	territory.Tour = mergeTerritories(left, right, data)
 
 	return territory
 }
 
 func mergeVertical(top, bottom *Territory, data *lib.CoordList) *Territory {
+	territory := initTerritory(top.Xmin, top.Ymin, top.Xmax, bottom.Ymax)
+	territory.Tour = mergeTerritories(top, bottom, data)
 
+	return territory
+}
+
+func mergeTerritories(terA, terB *Territory, data *lib.CoordList) *lib.Tour {
+	tourA := *terA.Tour
+	tourB := *terB.Tour
+	result := make(lib.Tour, 0)
+
+	bestDiff := math.MaxFloat64
+	bestAIndex := 0
+	bestBIndex := 0
+
+	lenA := len(tourA)
+	lenB := len(tourB)
+
+	if (lenA == 0 || lenB == 0) || (lenA == 1 && lenB == 1) {
+		result = append(result, tourA...)
+		result = append(result, tourB...)
+		return &result
+	}
+
+	if lenA == 1 {
+		aID := terA.Tour.Get(0)
+		for i := 0; i < lenB-1; i++ {
+			bID := terB.Tour.Get(i)
+			bNextID := terB.Tour.Get(i + 1)
+			diff := data.Distance(bID, aID) + data.Distance(bNextID, aID) - data.Distance(bID, bNextID)
+			if diff < bestDiff {
+				bestBIndex = i
+			}
+		}
+
+		result = append(result, tourB[:bestBIndex+1]...)
+		result = append(result, aID)
+		result = append(result, tourB[bestBIndex+1:]...)
+
+		return &result
+	}
+
+	if lenB == 1 {
+		bID := terB.Tour.Get(0)
+		for i := 0; i < lenA-1; i++ {
+			aID := terA.Tour.Get(i)
+			aNextID := terA.Tour.Get(i + 1)
+			diff := data.Distance(aID, bID) + data.Distance(aNextID, bID) - data.Distance(aID, aNextID)
+			if diff < bestDiff {
+				bestAIndex = i
+			}
+		}
+
+		result = append(result, tourA[:bestAIndex+1]...)
+		result = append(result, bID)
+		result = append(result, tourA[bestAIndex+1:]...)
+
+		return &result
+	}
+
+	// とりあえずほぼ総当たり
+	for i := 0; i < lenA-1; i++ {
+		aID := terA.Tour.Get(i)
+		aNextID := terA.Tour.Get(i + 1)
+		for j := 0; j < lenB-1; j++ {
+			bID := terB.Tour.Get(j)
+			bNextID := terB.Tour.Get(j + 1)
+			diff := data.Distance(aID, bID) + data.Distance(aNextID, bNextID) - data.Distance(aID, aNextID) - data.Distance(bID, bNextID)
+			if diff < bestDiff {
+				bestAIndex = i
+				bestBIndex = j
+			}
+		}
+	}
+
+	result = append(result, tourA[:bestAIndex+1]...)
+	result = append(result, tourB[bestBIndex:]...)
+	result = append(result, tourB[:bestBIndex]...)
+	result = append(result, tourA[bestAIndex+1:]...)
+
+	return &result
 }
