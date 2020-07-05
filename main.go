@@ -35,6 +35,7 @@ func main() {
 	fmt.Println("6: RandomInsertionで1頂点追加するごとにSwapで最適化")
 	fmt.Println("7: 分割統治法")
 	fmt.Println("8: Greedyの後2-optで最適化")
+	fmt.Println("9: RandomInsertionの後2-optで最適化")
 	fmt.Printf("> ")
 	input := lib.ReadLine()
 
@@ -80,17 +81,7 @@ func main() {
 			fmt.Println(err)
 			return
 		}
-		bestDistance := data.TotalDistance(result)
-		result, err = algo.Swap(data, result)
-		for {
-			fmt.Printf("best: %f\n", bestDistance)
-			result, err = algo.Swap(data, result)
-			tmpDistance := data.TotalDistance(result)
-			if tmpDistance == bestDistance {
-				break
-			}
-			bestDistance = data.TotalDistance(result)
-		}
+		result, err = algo.SwapRepeat(data, result)
 		break
 	case "6":
 		result, err = algo.RandomInsertionWithSwap(data)
@@ -103,6 +94,13 @@ func main() {
 		result = algo.DivideAndConquer(data)
 		break
 	case "8":
+		result, err = algo.RandomInsertion(data)
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+		result = algo.TwoOptRepeat(data, result)
+	case "9":
 		result, err = algo.RandomInsertion(data)
 		if err != nil {
 			fmt.Println(err)
