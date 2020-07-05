@@ -103,3 +103,10 @@ func (t *Tour) Insert(index int, id int) {
 	new = append(old[:index], new...)
 	*t = new
 }
+
+// Reverse Tourを逆順にする
+func (t Tour) Reverse() {
+	for i, j := 0, t.Len()-1; i < j; i, j = i+1, j-1 {
+		t[i], t[j] = t[j], t[i]
+	}
+}

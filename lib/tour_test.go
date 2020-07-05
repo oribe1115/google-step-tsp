@@ -279,3 +279,34 @@ func TestToureInsert(t *testing.T) {
 		})
 	}
 }
+
+func TestReverse(t *testing.T) {
+	tests := []struct {
+		Label    string
+		Use      Tour
+		Expected Tour
+	}{
+		{
+			Label:    "SUCCESS_normal",
+			Use:      Tour{0, 1, 2, 3, 4},
+			Expected: Tour{4, 3, 2, 1, 0},
+		},
+		{
+			Label:    "SUCCESS_len=1",
+			Use:      Tour{0},
+			Expected: Tour{0},
+		},
+		{
+			Label:    "SUCCESS_len=0",
+			Use:      Tour{},
+			Expected: Tour{},
+		},
+	}
+
+	for _, test := range tests {
+		t.Run(test.Label, func(t *testing.T) {
+			test.Use.Reverse()
+			assert.Equal(t, test.Expected, test.Use)
+		})
+	}
+}
