@@ -171,6 +171,9 @@ func mergeTerritories(terA, terB *Territory, data *lib.CoordList) *lib.Tour {
 		return &result
 	}
 
+	bestBStart := 0
+	bestBEnd := 0
+
 	// とりあえずほぼ総当たり
 	for i := 0; i < lenA-1; i++ {
 		aID := terA.Tour.Get(i)
@@ -178,17 +181,36 @@ func mergeTerritories(terA, terB *Territory, data *lib.CoordList) *lib.Tour {
 		for j := 0; j < lenB-1; j++ {
 			bID := terB.Tour.Get(j)
 			bNextID := terB.Tour.Get(j + 1)
+
 			diff := data.Distance(aID, bID) + data.Distance(aNextID, bNextID) - data.Distance(aID, aNextID) - data.Distance(bID, bNextID)
 			if diff < bestDiff {
 				bestAIndex = i
-				bestBIndex = j
+				bestBStart = j
+				bestBEnd = j + 1
+			}
+
+			diff = data.Distance(aID, bNextID) + data.Distance(aNextID, bID) - data.Distance(aID, aNextID) - data.Distance(bID, bNextID)
+			if diff < bestDiff {
+				bestAIndex = i
+				bestBStart = j + 1
+				bestBEnd = j
 			}
 		}
 	}
 
 	result = append(result, tourA[:bestAIndex+1]...)
-	result = append(result, tourB[bestBIndex:]...)
-	result = append(result, tourB[:bestBIndex]...)
+	if bestBStart < bestBEnd {
+		tmp := tourB[:bestBStart+1]
+		tmp.Reverse()
+		result = append(result, tmp...)
+		tmp = tourA[bestBEnd:]
+		tmp.Reverse()
+		result = append(result, tmp...)
+	} else {
+		result = append(result, tourB[bestBStart:]...)
+		result = append(result, tourB[:bestBStart]...)
+	}
+
 	result = append(result, tourA[bestAIndex+1:]...)
 
 	return &result
