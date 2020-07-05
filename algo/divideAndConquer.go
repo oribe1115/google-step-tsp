@@ -1,6 +1,7 @@
 package algo
 
 import (
+	"fmt"
 	"math"
 
 	"github.com/oribe1115/google-step-tsp/lib"
@@ -75,6 +76,9 @@ func (t *Territory) execDevideAndConsquer(data *lib.CoordList) {
 	bottom := mergeHorizonal(territories[2], territories[3], data)
 	merged := mergeVertical(top, bottom, data)
 	t.Tour = merged.Tour
+
+	fmt.Printf("x:%f - %f, y:%f - %f\n", t.Xmin, t.Xmax, t.Ymin, t.Ymax)
+	fmt.Printf("\t%v\n", t.Tour)
 }
 
 func initTerritory(xmin, ymin, xmax, ymax float64) *Territory {

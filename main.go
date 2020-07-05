@@ -33,6 +33,7 @@ func main() {
 	fmt.Println("4: RandomInsertion")
 	fmt.Println("5: RandomInsertionの後2-optで最適化")
 	fmt.Println("6: RandomInsertionで1頂点追加するごとに2-optで最適化")
+	fmt.Println("7: 分割統治法")
 	fmt.Printf("> ")
 	input := lib.ReadLine()
 
@@ -106,6 +107,9 @@ func main() {
 			fmt.Println(err)
 			return
 		}
+		break
+	case "7":
+		result = algo.DivideAndConquer(data)
 		break
 	default:
 		fmt.Println("Invalid input")
