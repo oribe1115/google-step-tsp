@@ -74,17 +74,17 @@ func (t *Territory) execDevideAndConsquer(data *lib.CoordList) {
 
 	top := mergeHorizonal(territories[0], territories[1], data)
 	if len(*top.Tour) > 3 {
-		top.Tour, _ = TwoOptRepeat(data, top.Tour)
+		top.Tour, _ = SwapRepeat(data, top.Tour)
 	}
 
 	bottom := mergeHorizonal(territories[2], territories[3], data)
 	if len(*bottom.Tour) > 3 {
-		bottom.Tour, _ = TwoOptRepeat(data, bottom.Tour)
+		bottom.Tour, _ = SwapRepeat(data, bottom.Tour)
 	}
 
 	merged := mergeVertical(top, bottom, data)
 	if len(*merged.Tour) > 3 {
-		merged.Tour, _ = TwoOptRepeat(data, merged.Tour)
+		merged.Tour, _ = SwapRepeat(data, merged.Tour)
 	}
 
 	t.Tour = merged.Tour

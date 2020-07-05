@@ -32,8 +32,8 @@ func RandomInsertion(data *lib.CoordList) (*lib.Tour, error) {
 	return result, nil
 }
 
-// RandomInsertionWithTwoOpt RandomInsertion法で1頂点追加するごとに2-optで最適化
-func RandomInsertionWithTwoOpt(data *lib.CoordList) (*lib.Tour, error) {
+// RandomInsertionWithSwap RandomInsertion法で1頂点追加するごとにSwapで最適化
+func RandomInsertionWithSwap(data *lib.CoordList) (*lib.Tour, error) {
 	result := lib.InitTour(0)
 	base := lib.InitTour(0)
 	base.SetDefault(len(*data))
@@ -55,12 +55,12 @@ func RandomInsertionWithTwoOpt(data *lib.CoordList) (*lib.Tour, error) {
 		result.Insert(index, tmpID)
 
 		bestDistance := data.TotalDistance(result)
-		result, err = TwoOpt(data, result)
+		result, err = Swap(data, result)
 		if err != nil {
 			return nil, err
 		}
 		for {
-			result, err = TwoOpt(data, result)
+			result, err = Swap(data, result)
 			if err != nil {
 				return nil, err
 			}

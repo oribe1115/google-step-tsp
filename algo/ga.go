@@ -130,7 +130,7 @@ func selection(childs []*lib.Tour, size int, data *lib.CoordList) []*lib.Tour {
 func mutation(data *lib.CoordList, parent *lib.Tour) *lib.Tour {
 	rand := lib.Rand(100)
 	if rand < 50 {
-		return twoOptMutaion(data, parent)
+		return swapMutaion(data, parent)
 	}
 	return scrambleMutation(parent)
 }
@@ -160,9 +160,9 @@ func scrambleMutation(parent *lib.Tour) *lib.Tour {
 	return &new
 }
 
-// twoOptMutaion 2-optによる突然変異
-func twoOptMutaion(data *lib.CoordList, parent *lib.Tour) *lib.Tour {
-	res, err := TwoOpt(data, parent)
+// swapMutaion 2-optによる突然変異
+func swapMutaion(data *lib.CoordList, parent *lib.Tour) *lib.Tour {
+	res, err := Swap(data, parent)
 	if err != nil {
 		panic(err)
 	}

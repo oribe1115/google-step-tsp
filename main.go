@@ -28,11 +28,11 @@ func main() {
 
 	fmt.Println("Choose alogorithm")
 	fmt.Println("1. Greedy")
-	fmt.Println("2. Greedyの後2-optで最適化")
+	fmt.Println("2. Greedyの後Swapで最適化")
 	fmt.Println("3. GeneticAlgorithm")
 	fmt.Println("4: RandomInsertion")
-	fmt.Println("5: RandomInsertionの後2-optで最適化")
-	fmt.Println("6: RandomInsertionで1頂点追加するごとに2-optで最適化")
+	fmt.Println("5: RandomInsertionの後Swapで最適化")
+	fmt.Println("6: RandomInsertionで1頂点追加するごとにSwapで最適化")
 	fmt.Println("7: 分割統治法")
 	fmt.Printf("> ")
 	input := lib.ReadLine()
@@ -53,7 +53,7 @@ func main() {
 			fmt.Println(err)
 			return
 		}
-		result, err = algo.TwoOptRepeat(data, result)
+		result, err = algo.SwapRepeat(data, result)
 		break
 	case "3":
 		fmt.Println("Input Generarion Limit")
@@ -80,10 +80,10 @@ func main() {
 			return
 		}
 		bestDistance := data.TotalDistance(result)
-		result, err = algo.TwoOpt(data, result)
+		result, err = algo.Swap(data, result)
 		for {
 			fmt.Printf("best: %f\n", bestDistance)
-			result, err = algo.TwoOpt(data, result)
+			result, err = algo.Swap(data, result)
 			tmpDistance := data.TotalDistance(result)
 			if tmpDistance == bestDistance {
 				break
@@ -92,7 +92,7 @@ func main() {
 		}
 		break
 	case "6":
-		result, err = algo.RandomInsertionWithTwoOpt(data)
+		result, err = algo.RandomInsertionWithSwap(data)
 		if err != nil {
 			fmt.Println(err)
 			return
